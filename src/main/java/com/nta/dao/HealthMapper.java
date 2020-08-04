@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 @Slf4j
@@ -26,7 +28,12 @@ public class HealthMapper {
             e.printStackTrace();
             return Result.failure("get es info error");
         }
-        return Result.success(info);
+        Map infoMap = new HashMap();
+        infoMap.put("NodeName", info.getNodeName());
+        infoMap.put("ClusterUuid", info.getClusterUuid());
+        infoMap.put("ClusterName", info.getClusterName().toString());
+        infoMap.put("Version", info.getVersion().toString());
+        return Result.success(infoMap);
     }
 
     public Result ping(){
